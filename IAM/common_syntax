@@ -1,0 +1,21 @@
+
+
+Deny overwrites Allow
+
+
+//
+"s3:listallmybuckets" 
+  allow users to list all THEIR buckets 
+  
+"getbucketlocation"
+  returns the region the bucket resides in
+  
+"createbucket"
+
+Must USE "resource":"*" //For certain above S3 policies the resource must = to "*"
+
+"s3:listbucket"
+  list all objects in bucket 
+    must be used with "resources": (bucketname)
+    
+    https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_variables.html
