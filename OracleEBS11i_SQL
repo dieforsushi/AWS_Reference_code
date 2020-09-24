@@ -1,0 +1,418 @@
+ 
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+REQ
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ 
+select authorization_status, wf_item_key
+from po.po_requisition_headers_all
+where segment1='500606'
+ 
+ 
+select a.*, b.*, c.*
+from PO.PO_REQ_DISTRIBUTIONS_ALL a,
+po.po_requisition_headers_all b,
+po.po_requisition_lines_all c
+where b.REQUISITION_HEADER_ID= c.REQUISITION_HEADER_ID
+and a.REQUISITION_LINE_ID= c.REQUISITION_LINE_ID
+and b.segment1='496134'
+ 
+select a.authorization_status, a.ATTRIBUTE_CATEGORY, a.segment1, B.PURCHASE_BASIS, b.line_num, b.item_description, b.UNIT_MEAS_LOOKUP_CODE UNIT_OF_MEASURE, B.UNIT_PRICE, B.QUANTITY, 
+c.failed_funds_lookup_code, d.DESCRIPTION, e.subject WF_MESSAGE, e.status WF_STATUS, e.to_user, f.* 
+from po.po_requisition_headers_all a,
+po.po_requisition_lines_all b,
+po.po_req_distributions_all c,
+apps.fnd_lookups d,
+wf_notifications e,
+gl.gl_code_combinations f
+where a.requisition_header_id = b.requisition_header_id
+and b.requisition_line_id = c.requisition_line_id
+and c.failed_funds_lookup_code = d.lookup_code
+and a.wf_item_key = e.item_key
+and c.budget_account_id = f.code_combination_id
+and a.segment1='496134'
+select b.creation_date, b.approved_date, b.authorization_status, b.wf_item_key, b.attribute_category as committment,
+c.line_num, c.unit_meas_lookup_code as UOM, c.unit_price, c.quantity, 
+e.name as PROJECT_name,e.segment1 as PROJECT_num, d.task_name as TASK_name, d.task_number as TASK_num, a.expenditure_type, d.description
+from PO.PO_REQ_DISTRIBUTIONS_ALL a,
+po.po_requisition_headers_all b,
+po.po_requisition_lines_all c,
+pa.pa_tasks d,
+pa.pa_projects_all e
+where b.REQUISITION_HEADER_ID= c.REQUISITION_HEADER_ID
+and a.REQUISITION_LINE_ID= c.REQUISITION_LINE_ID
+and d.TASK_ID=a.TASK_ID
+and e.PROJECT_ID=a.PROJECT_ID
+and b.segment1='499221'
+ 
+ 
+ 
+select a.authorization_status as Status, a.ATTRIBUTE_CATEGORY as Commitment_type, a.segment1, B.PURCHASE_BASIS as Category, b.line_num, b.item_description, b.UNIT_MEAS_LOOKUP_CODE UOM,
+B.UNIT_PRICE, B.QUANTITY, 
+c.failed_funds_lookup_code FAILED_CODE, d.DESCRIPTION, e.subject WF_MESSAGE, e.status WF_STATUS, e.to_user, f.segment1, f.segment2, f.segment3, f.segment4, f.segment5, f.segment6, f.* 
+from po.po_requisition_headers_all a,
+po.po_requisition_lines_all b,
+po.po_req_distributions_all c,
+apps.fnd_lookups d,
+wf_notifications e,
+gl.gl_code_combinations f
+where a.requisition_header_id = b.requisition_header_id
+and b.requisition_line_id = c.requisition_line_id
+and c.failed_funds_lookup_code = d.lookup_code
+and a.wf_item_key = e.item_key
+and c.budget_account_id = f.code_combination_id
+and a.segment1='483180'
+ 
+select a.employee_id, b.full_name, a.email_address
+from fnd_user a,
+per_all_people_f b
+where a.employee_id=b.person_id
+and user_id='7110'
+ 
+select authorization_status
+from po.po_headers_all
+where segment1 ==''70
+ 
+select a.unit_meas_lookup_code as UOM,a.unit_price,a.quantity,quantity_delivered,
+b.full_name
+from po.po_requisition_lines_all a,
+per_all_people_f b,
+po.po_requisition_headers_all c
+where a.created_by=b.person_id
+and a.requisition_header_id=c.requisition_header_id
+and c.segment1='496098'
+ 
+select * 
+from po.po_requisition_headers_all
+ 
+ 
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+PO
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ 
+select a.revision_num, a.authorization_status, a.wf_item_key 
+from po.po_headers_all a
+where segment1='70US0919K70090037'
+ 
+ 
+select a.revision_num, a.wf_item_key,a.authorization_status as Blanket_authroization_status,b.release_num,b.authorization_status as Release_authorization_status, b.wf_item_key, a.*, b.* 
+from po.po_headers_all a, 
+po.po_releases_all b
+where a.po_header_id=b.po_header_id
+and a.segment1='&PO'
+ 
+select b.line_num,b.quantity,b.contract_num,b.project_id,c.task_id,c.quantity_delivered,c.quantity_billed,
+c.req_distribution_id,c.deliver_to_location_id,c.deliver_to_person_id,c.encumbered_flag,c.encumbered_amount,
+c.failed_funds_lookup_code, c.GL_encumbered_date, c.GL_encumbered_period_name,a.*,b.*,c.* 
+from po.po_headers_all a, 
+po.po_lines_all b, 
+po.po_distributions_all c
+where a.po_header_id=b.po_header_id 
+and b.po_line_id=c.po_line_id 
+and a.po_header_id=c.po_header_id
+and segment1='HSSS01-16-P-0360'
+ORDER BY 1
+select a.failed_funds_lookup_code,a.*, b.*
+from po.po_distributions_all a,
+apps.fnd_lookups b,
+po.po_headers_all c
+where a.failed_funds_lookup_code=b.lookup_code
+and c.po_header_id=a.po_header_id
+and c.segment1='70US0919L70090191'
+ 
+select
+from po.po_distributions_all a,
+po.po_headers_all b,
+po.po_lines_all c,
+apps.fnd_lookups d,
+wf_notifications e,
+gl.gl_code_combinations f
+where a.po_header_id=b.po_header_id
+and a.po_line_id=c.po_line_id 
+and b.po_header_id=c.po_header_id
+and a.failed_funds_lookup_code = d.lookup_code
+and a.wf_item_key = e.item_key
+and a.budget_account_id = f.code_combination_id
+and b.segment1='HSSS01-14-F-0045'
+ 
+select G.BC_COMMITMENT_ID, a.authorization_status, a.segment1, A.ATTRIBUTE8, B.PURCHASE_BASIS, b.line_num, b.item_description, b.UNIT_MEAS_LOOKUP_CODE UNIT_OF_MEASURE, B.UNIT_PRICE, B.QUANTITY,
+D.SEGMENT1, E.TASK_NUMBER, G.EXPENDITURE_ITEM_DATE, G.PERIOD_NAME, G.PA_DATE, G.GL_DATE
+--C.QUANTITY_ORDERED, C.QUANTITY_DELIVERED, C.QUANTITY_BILLED, C.QUANTITY_CANCELLED, C.AMOUNT_BILLED, C.GL_ENCUMBERED_DATE, C.DISTRIBUTION_NUM, B.CANCEL_FLAG
+from po.po_headers_all a,
+po.po_lines_all b,
+po.po_distributions_all c,
+pa.pa_projects_all d,
+pa.pa_tasks e,
+pa.pa_budget_versions f,
+PA.PA_BC_COMMITMENTS_ALL G
+where a.po_header_id = b.po_header_id
+and a.po_header_id = c.po_header_id
+and b.po_line_id = c.po_line_id
+and c.project_id = d.project_id
+and c.task_id = e.task_id
+and d.project_id = f.project_id
+and f.current_flag = 'Y'
+and a.po_header_id = G.document_header_id
+--AND B.PO_LINE_ID = G.DOCUMENT_LINE_ID
+and c.PO_DISTRIBUTION_ID = G.DOCUMENT_DISTRIBUTION_ID
+AND D.PROJECT_ID = G.PROJECT_ID
+AND E.TASK_ID = G.TASK_ID
+AND E.TASK_ID = G.BUD_TASK_ID
+AND F.BUDGET_VERSION_ID = G.BUDGET_VERSION_ID
+and a.segment1 = '70US0919F3OTH0071' 
+ORDER BY 4
+ 
+select porh.segment1 req_num, porl.line_num, porh.authorization_status, pord.project_id Dist_project, pord.task_id Dist_task, porh.closed_code, porh.cancel_flag,
+porl.quantity, porl.unit_price, porl.quantity_received, pord.encumbered_amount, glcc.segment1, glcc.segment2, glcc.segment3, glcc.segment5, glcc.segment6
+from po.po_requisition_headers_all porh, 
+po.po_requisition_lines_all porl,
+po.po_req_distributions_all pord,
+po.po_headers_all poh,
+po.po_lines_all pol,
+po.po_distributions_all pod,
+gl.gl_code_combinations glcc, 
+pa.pa_projects_all pap, 
+pa.pa_tasks pat
+where porh.requisition_header_id=porl.requisition_header_id
+and porl.requisition_line_id=pord.requisition_line_id
+and pord.code_combination_id=glcc.code_combination_id 
+and pap.project_id=pord.project_id
+and pat.task_id=pord.task_id
+and poh.po_header_id=pol.po_header_id
+and pol.po_line_id=pod.po_line_id
+and pord.distribution_id=pod.req_distribution_id
+and poh.segment1 = '70US0919F3OTH0071'
+ 
+select b.segment1,c.line_num, b.authorization_status, b.wf_item_key as REQ_WF_KEY, b.segment1 as REQ_number,
+c.unit_meas_lookup_code as REQ_UOM, f.unit_meas_lookup_code as PO_UOM, c.quantity, c.unit_price, f.line_num as PO_LINE_NUM, e.authorization_status, e.segment1 as PO_NUMBER, e.wf_item_key as PO_WF_KEY, c.requester_email
+from po.po_req_distributions_all a, 
+po.po_requisition_headers_all b, 
+po.po_requisition_lines_all c, 
+po.po_distributions_all d, 
+po.po_headers_all e, 
+po.po_lines_all f
+where a.requisition_line_id=c.requisition_line_id 
+and b.requisition_header_id=c.requisition_header_id 
+and e.po_header_id=d.po_header_id 
+and e.po_header_id=f.po_header_id 
+and a.distribution_id=d.req_distribution_id
+and e.segment1='70US0919F3OTH0071'
+ 
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+INVOICES
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ 
+select * 
+from ap.ap_invoices_all
+where invoice_num='095466252'
+ 
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+VENDOR
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ 
+select a.vendor_ID, a.* 
+from ap.ap_suppliers a
+where segment1='521765305'
+ 
+select a.vendor_ID, a.* 
+from ap.ap_suppliers a
+where vendor_name like UPPER ('%CONVERGEONE GOVERNMENT SOLUTIONS LLC%')
+ 
+select a.vendor_id,a.vendor_name, a.segment1,b.inactive_date, b.primary_pay_site_flag, a.start_date_active,b.vendor_site_code, b.address_line1,b.address_line2, b.city, b.state,b.zip, b.country 
+from ap.ap_suppliers a,
+ap.ap_supplier_sites_all b
+where a.vendor_id=b.vendor_id
+and a.vendor_id='119822'
+ 
+select distinct porl.SUGGESTED_VENDOR_NAME as REQ_Vendor_Name,porl.SUGGESTED_VENDOR_LOCATION as REQ_Vendor_Site, porl.VENDOR_ID, porl.VENDOR_SITE_ID,
+apssa.inactive_date, apssa.primary_pay_site_flag, aps.start_date_active,apssa.vendor_site_code, apssa.address_line1,apssa.address_line2, apssa.city, apssa.state,apssa.zip, apssa.country
+from po.po_requisition_headers_all porha,
+po.po_requisition_lines_all porl,
+--po.po_req_distributions_all porda,
+--po.po_headers_all poha,
+--po.po_lines_all pola,
+ap.ap_suppliers aps,
+ap.ap_supplier_sites_all apssa
+where porl.vendor_id = aps.vendor_id
+--and porda.requisition_line_id = porl.requisition_line_id
+and apssa.vendor_site_id = porl.vendor_site_id
+and porha.requisition_header_id = porl.requisition_header_id
+and porha.segment1 = '499767'
+ 
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+FEDERAL AGENCY
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ 
+select fvts.treasury_symbol_id,fvbm.betc_code,fvts.agency_id,fvts.treasury_symbol, fvts.*, fvbm.*
+from FV_TP_TREASURY_SYMBOLS fvts,
+FV_TAS_BETC_MAP fvbm
+where fvts.treasury_symbol_id=fvbm.treasury_symbol_id
+and fvts.treasury_symbol='014X4523'
+ 
+ 
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+GL
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ 
+select * 
+from gl.gl_je_lines gjl, gl.gl_code_combinations gcc
+where gcc.code_combination_id = gjl.code_combination_id
+and gcc.segment5 = 'CIO001_19'
+and gcc.segment6 = 'CIO001_19_0400_21_00' 
+ 
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+PO INNTERFACE/POID
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ 
+SELECT * from po_interface_errors
+where interface_header_id='1431744'
+ 
+select a.*, INTERFACE_HEADER_ID
+from po_headers_interface a
+where document_num='HSSS01-16-F-0050'
+select * from po.po_headers_interface where document_num='HSSS01-16-F-0050'
+ 
+select * from po.po_lines_interface 
+ 
+select * from po.po_line_locations_interface
+ 
+select * from po.po_distributions_intreface
+ 
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+IPP
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ 
+SELECT * 
+FROM XXEF_IPP_OUT_PO_HEADERS 
+WHERE PO_HEADER_ID ='1288560'
+ORDER BY PO_HEADER_TIMESTAMP DESC
+ 
+select *
+from XXEF_IPP_OUT_PO
+where request_id='21185754'
+ 
+select po_header_id, revision_num
+from po.po_headers_all
+where segment1='70US0919F3OTH0017'
+ 
+SELECT SEGMENT1, ATTRIBUTE8 MOD_NUM, REVISION_NUM  
+FROM PO.PO_HEADERS_ALL 
+WHERE SEGMENT1 = '70US0919F3OTH0017'
+ 
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ARCHIVE
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ 
+select distinct pohal.revision_num Archive_REV_NUM, pohal.authorization_status Archive_Status, poh.revision_num, poh.authorization_status
+from po.po_headers_archive_all pohal, 
+po.po_lines_archive_all polal,
+po.po_distributions_archive_all podal,
+po.po_headers_all poh, 
+po.po_lines_all pol, 
+po.po_distributions_all poda,
+gl.gl_code_combinations glcc
+where pohal.po_header_id = polal.po_header_id
+and polal.po_line_id = podal.po_line_id
+and poh.po_header_id = pol.po_header_id
+and pol.po_line_id = podal.po_line_id
+and podal.po_distribution_id = poda.po_distribution_id
+and podal.code_combination_id = glcc.code_combination_id
+and poda.code_combination_id = glcc.code_combination_id 
+and pohal.segment1='HSSS01-15-F-0045'
+order by 1 DESC
+ 
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+PO/REQ FUNDING SYNC
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+ 
+select porh.LAST_UPDATE_DATE,pord.expenditure_item_date, porh.APPROVED_DATE, porh.segment1 req_num,pord.creation_date, porl.line_num, porh.authorization_status, pord.project_id Dist_project, pord.task_id Dist_task, porh.closed_code, interface_source_code, porh.cancel_flag,
+porl.quantity, porl.unit_price, porl.quantity_received, pord.encumbered_flag, pord.encumbered_amount, glcc.segment1, glcc.segment2, glcc.segment3, glcc.segment5, glcc.segment6
+from po.po_requisition_headers_all porh, 
+po.po_requisition_lines_all porl,
+po.po_req_distributions_all pord,
+gl.gl_code_combinations glcc, 
+pa.pa_projects_all pap, 
+pa.pa_tasks pat
+where porh.requisition_header_id=porl.requisition_header_id
+and porl.requisition_line_id=pord.requisition_line_id
+and pord.code_combination_id=glcc.code_combination_id 
+and pap.project_id=pord.project_id
+and pat.task_id=pord.task_id
+and pord.encumbered_flag='Y'
+--and pord.project_id=NULL
+and glcc.segment5='CIO001_19'
+and glcc.segment6='CIO001_19_0400_11_00'
+--'CIO001_19_0400_08_03'
+ 
+select porh.segment1 req_num, porl.line_num, porh.authorization_status, pord.project_id Dist_project, pord.task_id Dist_task, porh.closed_code, porh.cancel_flag,
+porl.quantity, porl.unit_price, porl.quantity_received, pord.encumbered_amount, glcc.segment1, glcc.segment2, glcc.segment3, glcc.segment5, glcc.segment6
+from po.po_requisition_headers_all porh, 
+po.po_requisition_lines_all porl,
+po.po_req_distributions_all pord,
+po.po_headers_all poh,
+po.po_lines_all pol,
+po.po_distributions_all pod,
+gl.gl_code_combinations glcc, 
+pa.pa_projects_all pap, 
+pa.pa_tasks pat
+where porh.requisition_header_id=porl.requisition_header_id
+and porl.requisition_line_id=pord.requisition_line_id
+and pord.code_combination_id=glcc.code_combination_id 
+and pap.project_id=pord.project_id
+and pat.task_id=pord.task_id
+and poh.po_header_id=pol.po_header_id
+and pol.po_line_id=pod.po_line_id
+and pord.distribution_id=pod.req_distribution_id
+and poh.segment1=NULL
+and glcc.segment5='CIO001_19'
+and glcc.segment6='CIO001_19_0400_11_00'
+ 
+select poh.segment1,authorization_status, pol.line_num, pol.item_description, pol.unit_meas_lookup_code, pol.unit_price, pol.quantity,
+pod.encumbered_flag,pod.GL_ENCUMBERED_PERIOD_NAME as GL_Period, pod.ENCUMBERED_AMOUNT, pod.project_id, pod.task_id, 
+glc.segment1 bfy, glc.segment2 fund, glc.segment3 ppa, glc.segment5 project, 
+glc.segment6 task, glc.segment7 oc, glc.segment9 sgl
+from po.po_requisition_headers_all poh,
+po.po_requisition_lines_all pol,
+po.po_req_distributions_all pod,
+gl.gl_code_combinations glc
+--pa.pa_projects_all pap,
+--pa.pa_tasks pat
+where poh.REQUISITION_Header_ID=pol.REQUISITION_header_ID
+and pol.requisition_line_id=pod.requisition_line_id
+and pod.code_combination_id=glc.code_combination_id
+--and pap.project_id=pat.project_id
+--and pod.project_id=pap.project_id
+--and pat.task_id=pod.task_id
+and poh.authorization_status='APPROVED'
+and nvl(poh.cancel_flag, 'N') = 'N'
+and pod.ENCUMBERED_FLAG='Y'
+--and closed_code <> 'CLOSED'
+and pod.project_id is null
+ 
+select b.segment1,c.line_num, b.authorization_status, b.wf_item_key as REQ_WF_KEY, b.segment1 as REQ_number,
+c.unit_meas_lookup_code as REQ_UOM, f.unit_meas_lookup_code as PO_UOM, c.quantity, c.unit_price, f.line_num as PO_LINE_NUM, e.authorization_status, e.segment1 as PO_NUMBER, e.wf_item_key as PO_WF_KEY, c.requester_email
+from po.po_req_distributions_all a, 
+po.po_requisition_headers_all b, 
+po.po_requisition_lines_all c, 
+po.po_distributions_all d, 
+po.po_headers_all e, 
+po.po_lines_all f
+where a.requisition_line_id=c.requisition_line_id 
+and b.requisition_header_id=c.requisition_header_id 
+and e.po_header_id=d.po_header_id 
+and e.po_header_id=f.po_header_id 
+and a.distribution_id=d.req_distribution_id
+and e.segment1='HSSS01-17-C-0001'
+ 
+select apid.posted_flag, apia.creation_date,apia.invoice_num,apia.INVOICE_AMOUNT, apid.accounting_date,apid.expenditure_item_date,apia.invoice_date,apia.payment_method_lookup_code,apia.source,apia.gl_date, glcc.last_update_date, glcc.enabled_flag, glcc.segment1, glcc.segment5, glcc.segment6
+from ap.ap_invoices_all apia, 
+ap.ap_invoice_lines_all apil, 
+ap.ap_invoice_distributions_all apid, 
+gl.gl_code_combinations glcc
+where apia.invoice_id=apil.invoice_id
+and apil.invoice_id=apid.invoice_id
+and glcc.code_combination_id=apid.dist_code_combination_id
+and apia.invoice_num='W19PUSS583-6646-246848'
+and glcc.segment5='TEC003_19'
+and glcc.segment6='TEC003_19_0400_01_01'
+--'TEC012_19_0400_06_00'
+--and apia.invoice_amount>0
