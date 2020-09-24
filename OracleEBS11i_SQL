@@ -7,7 +7,6 @@ select authorization_status, wf_item_key
 from po.po_requisition_headers_all
 where segment1='500606'
  
- 
 select a.*, b.*, c.*
 from PO.PO_REQ_DISTRIBUTIONS_ALL a,
 po.po_requisition_headers_all b,
@@ -43,8 +42,6 @@ and a.REQUISITION_LINE_ID= c.REQUISITION_LINE_ID
 and d.TASK_ID=a.TASK_ID
 and e.PROJECT_ID=a.PROJECT_ID
 and b.segment1='499221'
- 
- 
  
 select a.authorization_status as Status, a.ATTRIBUTE_CATEGORY as Commitment_type, a.segment1, B.PURCHASE_BASIS as Category, b.line_num, b.item_description, b.UNIT_MEAS_LOOKUP_CODE UOM,
 B.UNIT_PRICE, B.QUANTITY, 
@@ -83,8 +80,6 @@ and c.segment1='496098'
  
 select * 
 from po.po_requisition_headers_all
- 
- 
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 PO
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -92,7 +87,6 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 select a.revision_num, a.authorization_status, a.wf_item_key 
 from po.po_headers_all a
 where segment1='70US0919K70090037'
- 
  
 select a.revision_num, a.wf_item_key,a.authorization_status as Blanket_authroization_status,b.release_num,b.authorization_status as Release_authorization_status, b.wf_item_key, a.*, b.* 
 from po.po_headers_all a, 
@@ -247,7 +241,6 @@ from FV_TP_TREASURY_SYMBOLS fvts,
 FV_TAS_BETC_MAP fvbm
 where fvts.treasury_symbol_id=fvbm.treasury_symbol_id
 and fvts.treasury_symbol='014X4523'
- 
  
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 GL
