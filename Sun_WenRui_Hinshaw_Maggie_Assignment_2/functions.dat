@@ -1,0 +1,218 @@
+<?php
+
+//opens and load login.dat info by reading the file
+//source: screen cast file i/o
+function load_users_info($user_data_file) {
+    @$fp = fopen($user_data_file, 'r');
+    while (!feof($fp)) {
+        $user_info_line = fgets($fp);
+        $user_info_parts = explode(',', $user_info_line);
+        $user_info_array = array('username' => $user_info_parts[0], 'password' => $user_info_parts[1],'email' => $user_info_parts[2]); //
+        $all_user_info_array[strtolower($user_info_array['username'])] = $user_info_array;
+    }
+    fclose($fp);
+    return $all_user_info_array;}  
+    
+//collect error in a bag and display an error if user enter an wrong data
+//from assignment #1
+function display_products($product_to_display, $errors = array()) {
+            ?>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title> Wen's Beer Shop</title>
+    </head>
+    <style>
+        body
+        {background-image: url(./imgs/simpsons-wallpaper-download.jpg);                  
+         background-repeat:repeat-y;
+         background-size: 1500px;
+        }
+    </style>
+    <center>
+        <h1> Dakine's Beer Shop</h1>       
+<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST"> <!-- Form -->
+    <table border="2"> 
+        <tr>
+            <td style="text-align: center;color:navy; font-style: oblique;"><b><big>Image</big></b></td>
+            <td style="text-align: center;color:navy; font-style: oblique;"><b><big>Price</big></b></td>
+            <td style="text-align: center;color: navy; font-style: oblique;;"><b><big>Brand/Country of Origin</big></b></td>
+
+            <td style="text-align: center;color:navy; font-style: oblique;"><b><big>Quantity Desired<br>(In Packs)</big></b></td>
+        </tr>
+                    <?php
+                    for ($i = 0; $i < count($product_to_display); $i++) { //check if quantities are posted, then use $quantity_string. Otherwise, textbox
+                        $quantity_string = "<Input Type=text size=3 maxlength=3 name='quantity[$i]' value=0>";
+                        if (isset($errors[$i])) {
+                            $quantity_string .= "<br>" . implode("<br>", $errors[$i]); //show errors next to quality                        
+                        }
+                       
+                        printf('
+    <tr> 
+        <td><img alt="Small" id="lightboxImage" style="width: 150; height: 150;" src="./imgs/%s" height="150" width="150"></td>
+        <td style="text-align: center;">$%.2f</td>
+        <td style="text-align: center;">%s</td>        
+        <td style="text-align: center;">'. $quantity_string.'</td>
+    </tr>
+   
+    ', $product_to_display[$i]['image'], $product_to_display[$i]['price'], $product_to_display[$i]['brand'], $i); // Table 
+                    }
+?>
+        <tr><td colspan="4" style="text-align: right;border: none "><input type="submit" name="submit_button" value="Purchase"></td></tr> <!-- Submit and Purchase button -->
+    </table>
+</form>
+
+            <?php
+        }            
+//validate data before form processes itself
+//from assignment #1
+function validate_quantity($value) {
+            $error = array();
+            if (!is_numeric($value))
+                $error["not_numberic"] = "is not a number";
+            if ($value - (int) $value != 0)
+                $error['not_int'] = "brah this aint a interger";
+            if ($value < 0)
+                $error ['not_non-negative'] = "bradda, how you can buy negative beer???";            
+            return $error;
+        }
+// add new user
+//lab 11
+function add_new_user($user_file, $new_user_info){
+    $fp = fopen($user_file,'a');
+    fputs($fp,  "\n".implode(',', $new_user_info)); 
+    
+    fclose($fp);
+}
+// validate registration data are entered corrected
+//from Kana
+function display_registration() {
+    $userfile = 'login.dat';
+    $is_logged_in = false;//
+
+    $all_users_info =load_users_info($userfile);
+// validate user info
+    $errors = array();
+if (array_key_exists('register_valid', $_POST)) {
+
+    $username_entered = $password_entered = $confirmed_password= "";
+
+  $username_entered = test_input($_POST["username"]);
+  $password_entered = test_input($_POST["password"]);
+  $confirmed_password = test_input($_POST["confirm_password"]);
+  $email_entered = test_input($_POST["email"]);
+
+    $username_entered = $_POST['username'];
+    
+    //convert username to lowercase to make it case-insensitive
+  $_POST['username'] = strtolower($_POST['username']);
+    // username required error
+    if(empty($_POST['username'])){
+        $errors['username']['field_required'] = "Username required.";
+    }
+    // check to see if username already exists
+    else{ 
+        if(array_key_exists($username_entered, $all_users_info)) {
+        $errors['username']['username_exists'] = "Error: Username already exists.";
+    }
+    }
+    // check to see if username has illegal characters (no commas) & is correct length (4-11)
+    if(!preg_match('/^\w{4,11}$/',$_POST['username'])){
+      $errors['username']['username_invalid'] = "Error: Username must be 4-11 characters long & consist only of letters and numbers.";
+      }
+     
+    $password_entered = $_POST['password'];
+    
+    // password required error
+    if(empty($_POST['password'])){
+        $errors['password']['field_required'] = "Password required.";
+    }
+    else{
+    // check to see if password is at least 6 characters
+        if(strlen($_POST['password'])<6){
+    $errors['password']['password_length']= "Error: Password must have minimum 6 characters.";
+    }
+    }
+    // confirm password required
+    if(empty($_POST['confirm_password'])){
+        $errors['confirm_password']['field_required']= "Confirm password.";
+    }
+    else{
+    // check to see if password has a comma 
+    $confirmed_password = $_POST['confirm_password'];
+    
+// make sure password is case sensitive & both passwords entered match   
+    $password1 = $_POST['password'];
+    $password2 = $_POST['confirm_password'];
+    if($password1 != $password2){
+        $errors['confirm_password']['passwords_dont_match'] = "Error: Passwords do not match.";
+    }
+    }
+    $email_entered=$_POST['email']; // change to emial
+    if(empty($_POST['confirm_password'])){
+        $errors['confirm_password']['field_required']= "Confirm password.";
+    }else{$email = test_input($_POST["email"]);
+    if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
+        $errors['email']['email_invalid']="Error: Please check email and re-enter it ";// validated using php 5 forms             
+    }
+    }               
+    //save username and password to files 
+    if (empty($errors)) {
+        // save the registration data
+        $new_user_info = array('username' => $username_entered, 'password' => $password_entered);
+        add_new_user($userfile, $new_user_info);
+        $is_logged_in = true;
+        if(array_key_exists('register_valid', $_POST)){
+            ?>
+<center>
+    <td><h1>Username Successfully Saved. Proceed to Login.</h1></td>
+    <form action="login.php" method="post">
+        <input type=hidden name='serial_post' value='<?php echo @$_POST['serial_post']; ?>'>
+        <input type="submit" name="validated" value='Go to login page'>
+        <?php
+        //store selected quantities to be hidden and pass it through till later
+        echo hidden_quantities($_POST['quantity'], "quantitiy");
+        ?>
+    </form></center>
+<?php
+        }
+        }
+     }
+
+// if errors array is not empty, then show this registration 
+if ($is_logged_in == FALSE) {
+    ?>
+Please fill out information below to register:<br>
+<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="POST">
+    <input type=hidden name='serial_post' value='<?php echo @$_POST['serial_post']; ?>'>
+    <input type=hidden name='htmlspecialchars' value='<?php echo @$_POST['htmlspecialchars']; ?>'>
+    <br>Username: <input type="text" name="username"/>
+        <?php
+        if (isset($errors['username'])) {
+            print implode('<br>', $errors['username']);
+        }
+        ?>
+    <br>
+    <br>
+    Password: <input type="password" name="password"/>
+        <?php
+        if (isset($errors['password'])) {
+            print implode('<br>', $errors['password']);
+        }
+        ?>
+    <br>
+    <br>
+    Confirm Password: <input type="password" name="confirm_password"/>
+        <?php
+        if (isset($errors['confirm_password'])) {
+            print implode('<br>', $errors['confirm_password']);
+        }
+        ?>
+    <br>
+    <br>
+    <input type="submit" name="register_valid" value="Register">
+</form>
+        <?php
+}
+}
+?>
